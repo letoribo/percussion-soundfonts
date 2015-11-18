@@ -1,0 +1,41 @@
+body{background-color:#fff;color: #000;}
+h1{font-size:2em;font-weight:bold;margin:12px;margin-left:1.5em;}
+h2{font-size:1.2em;font-style:italic;font-weight:bold;color: #888;margin:1em 1em 0em 1em;}
+pre{margin:.5em 1em 1em 1em;padding:.5em;}
+pre.big{font-size:1.3em;}
+pre.code{background-color:#eef;border:1px dotted #888;overflow:auto;}
+tt{background-color:#eef;font-weight:bold;padding:.2em;}
+a{color:#00f;}
+a:hover{color:#088;}
+p,ul{margin:.2em 1em .5em 1em;}
+ul ul{margin:.2em 0em .5em 0em;}
+.big{font-size:1.2em;}
+div.header{font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;color:#fff;background-color:#bbb;padding:5px;min-height:94px;font-size:16px;}
+.header h1{margin:8px;margin-right:200px;margin-bottom:4px;font-weight:bold;font-size:32px;}
+.header p{margin:4px;}
+div.footer{font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;color:#fff;background-color:#bbb;padding:5px;margin-top:24px;font-size:12px;text-align:right;}
+div.links{font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;color:#44f;background-color:#888;margin-top:2px;font-size:14px;}
+.links a{color:#bbb;background-color:#fff;padding:2px;margin-left:0px;margin-right:2px;padding-left:0.5em;padding-right:0.5em;font-weight:bold; display:inline;text-decoration:none;}
+.links a:hover{color:#888;}
+.links a.right{color:#ddd;padding:0;background-color:#888;font-weight:normal;font-size:10px;float:right;}
+.links a.right:hover{color:#fff;}
+div.path{color:#33f;background-color:#bbb;padding:5px;font-size:12px;text-decoration:none;}
+.path a{color:#33f;text-decoration:none;}
+.path a:hover{color:#008;text-decoration:none;}
+div.ver{display:inline-block;font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;font-weight:bold;font-size:20px;color:#448;vertical-align:top;}
+div.download{display:inline-block;}
+.download div{margin:.5em;padding:.5em;color:#888;border-style:double;}
+.download div div{margin:0em;padding:0em;border-style:none;font-size:1.2em;font-weight:bold;}
+div#JazzLogo{position:relative;color:#808080;height:92px;width:144px;float:left;}
+#JazzLogo div.ivory{position:absolute;left:0px;top:0px;border-left:1px solid;width:144px;}
+#JazzLogo .ivory span{background-color:#fffff0;padding:0px;margin:0px;border:1px solid;border-left:0px;display:inline-block;width:17px;height:90px;vertical-align:top;}
+#JazzLogo div.ebony{position:absolute;left:0px;top:0px;margin-left:12px;width:144px;}
+#JazzLogo .ebony span{position:relative;z-index:1;background-color:#111;padding:0px;margin:0px;border:1px solid;display:inline-block;width:9px;height:60px;margin-right:9px;vertical-align:top;}
+#JazzLogo .ebony span.break{border:0px;display:inline-block;width:1px;margin-right:12px;visibility:hidden;}
+#JazzLogo .ivory span.on{background-color: #aaa;}
+#JazzLogo .ebony span.on{background-color: #aaa;}
+.hidden{visibility:hidden;width:0px;height:0px;margin:0px;padding:0px;border-style:none;border-width:0px;max-width:0px;max-height:0px;}
+#donate{float:right;margin:1em;}
+.ads{margin:0.5em;}
+.social{font-size:1px;float:right;margin:-2px;}
+.fb-share-button{vertical-align:top;width:60px;}

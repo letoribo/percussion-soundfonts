@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://jazz-soft.net/demo/GeneralMidiPerc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>General MIDI Percussion</title>
+<meta name="keywords" content="General MIDI, percussion">
+<meta name="description" content="Interactive chart for General MIDI percussion">
+<link rel="stylesheet" type="text/css" href="./style.css">
+<script src="./JZZ.js"></script>
+<script src="./MIDI.js"></script>
+<script src="./JZZ.synth.MIDIjs.js"></script>
+<script type="text/javascript">
+
+document.addEventListener('DOMContentLoaded', function () {
+var preload = [];
+preload[0] = new Image(); preload[0].src = './img/ke.gif';
+preload[1] = new Image(); preload[1].src = './img/yb.gif';
+preload[2] = new Image(); preload[2].src = './img/oa.gif';
+preload[3] = new Image(); preload[3].src = './img/rd.gif';
+var loading;
+
+function showLoading(){
+ if (loading) return;
+ loading = document.createElement('DIV');
+ loading.innerHTML = '<img src=./img/ke.gif><img src=./img/yb.gif><img src=./img/oa.gif><img src=./img/rd.gif> MIDI.js loading... Please, wait a minute & try!';
+ loading.className = 'loading';
+ loading.style.position = 'fixed';
+ document.body.appendChild(loading);
+ centerDiv(loading);
+}
+function centerDiv(div){
+ var r = div.getBoundingClientRect();
+ var w = window.innerWidth;
+ var h = window.innerHeight;
+ div.style.top = (h+r.top-r.bottom)/2+'px';
+ div.style.left = (w+r.left-r.right)/2+'px';
+}
+function hideLoading(){
+ if (!loading) return;
+ if (loading.parentElement) loading.parentElement.removeChild(loading);
+}
+ JZZ.util.iosSound();
+ showLoading();
+ if(window.addEventListener) window.addEventListener('load',init,false);
+ else if(window.attachEvent) window.attachEvent('onload',init);
+ var arr=[];
+ var midi_init;
+ var playing;
+
+ function visit(t){
+  if(t.nodeType!=1) return;
+  if(t.getAttribute('midi')){
+   var a=arr[t.getAttribute('midi')];
+   if(!a) a=[]; a.push(t);
+   arr[t.getAttribute('midi')]=a;
+   if(t.addEventListener){
+    t.addEventListener('mousedown',down,false);
+   }
+   else if(t.attachEvent){
+    t.attachEvent('onmousedown',down);
+   }
+  }
+  for(var i in t.childNodes){
+   visit(t.childNodes[i]);
+  }
+ }
+
+ function init(){
+  if(document.addEventListener){
+   document.addEventListener('mouseup',up,false);
+  }
+  else if(document.attachEvent){
+   document.attachEvent('onmouseup',up);
+  }
+  visit(document.body);
+ }
+
+ function down(e){
+  var e=window.event || e;
+  var t;
+  if (e.target) t = e.target;
+  else if (e.srcElement) t = e.srcElement;
+  up(0);
+  while(!t.getAttribute('midi')) t=t.parentNode;
+  var m=t.getAttribute('midi');
+
+  JZZ.synth.MIDIjs({ soundfontUrl: "./soundfont/", instrument: "acoustic_grand_piano" })
+    .or(function(){ hideLoading(); 
+    alert('Cannot load MIDI.js '+this.err()); })
+    .and(function(){ hideLoading(); })
+    .note(0, m, 127, 500)
+  for(var i in arr[m]){
+   arr[m][i].className='playing';
+  }
+  playing=m;
+ }
+
+ function up(e){
+  if(!playing) return;
+
+  for(var i in arr[playing]){
+   arr[playing][i].className='';
+  }
+  playing=null;
+ }
+});
+
+</script>
+
+<style type="text/css">
+div#piano {
+ position: relative;
+ color: #808080;
+ height: 102px;
+ margin:1em;
+}
+div.ivory {
+ position: absolute;
+ left: 0px;
+ top: 0px;
+ border-left: 1px solid;
+ width: 954px;
+}
+.ivory span {
+ background-color: #fffff0;
+ padding: 0px;
+ margin: 0px;
+ border: 1px solid;
+ border-left: 0px;
+ display: inline-block;
+ width: 17px;
+ height: 100px;
+ vertical-align: top;
+}
+div.ebony {
+ position: absolute;
+ left: 0px;
+ top: 0px;
+ margin-left: 15px;
+ width: 954px;
+}
+.ebony span {
+ position: relative;
+ z-index: 1;
+ background-color: #111;
+ padding: 0px;
+ margin: 0px;
+ border: 1px solid;
+ display: inline-block;
+ width: 9px;
+ height: 70px;
+ margin-right: 9px;
+ vertical-align: top;
+}
+.ebony span.break {
+ border: 0px;
+ display: inline-block;
+ width: 1px;
+ margin-right: 12px;
+ visibility:hidden;
+}
+.ivory span.playing {
+ background-color: #aaa;
+}
+.ebony span.playing {
+ background-color: #aaa;
+}
+.playing {
+ background-color: #ccc;
+}
+.black {
+ background-color:#000;
+ color:#fff;
+}
+.playing .black {
+ background-color:#888;
+}
+.tab {
+ font-family:"Courier New",Courier,monospace;
+ width:60em;
+}
+.tab .col {
+ display:inline-block;
+ vertical-align:top;
+ width:18em;
+ margin:1em;
+}
+.col div {
+ height:1.1em;
+}
+.loading {
+ color:#444;
+ background:#ffb;
+ padding:.5em;
+}
+.loading img {
+ padding:0;
+ margin:0;
+ vertical-align: middle;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>General MIDI Percussion Chart</h1>
+
+<div id="piano">
+<div class="ebony">
+<span midi="22"></span><span class="break"></span><span midi="25"></span><span midi="27"></span><span class="break"></span><span midi="30"></span><span midi="32"></span><span midi="34"></span><span class="break"></span><span midi="37"></span><span midi="39"></span><span class="break"></span><span midi="42"></span><span midi="44"></span><span midi="46"></span><span class="break"></span><span midi="49"></span><span midi="51"></span><span class="break"></span><span midi="54"></span><span midi="56"></span><span midi="58"></span><span class="break"></span><span midi="61"></span><span midi="63"></span><span class="break"></span><span midi="66"></span><span midi="68"></span><span midi="70"></span><span class="break"></span><span midi="73"></span><span midi="75"></span><span class="break"></span><span midi="78"></span><span midi="80"></span><span midi="82"></span><span class="break"></span><span midi="85"></span><span midi="87"></span><span class="break"></span><span midi="90"></span><span midi="92"></span><span midi="94"></span><span class="break"></span><span midi="97"></span><span midi="99"></span><span class="break"></span><span midi="102"></span><span midi="104"></span><span midi="106"></span>
+</div>
+<div class="ivory">
+<span midi="21" class=""></span><span midi="23" class=""></span><span midi="24"></span><span midi="26"></span><span midi="28"></span><span midi="29"></span><span midi="31"></span><span midi="33"></span><span midi="35"></span><span midi="36"></span><span midi="38"></span><span midi="40"></span><span midi="41"></span><span midi="43"></span><span midi="45"></span><span midi="47"></span><span midi="48" class=""></span><span midi="50"></span><span midi="52"></span><span midi="53"></span><span midi="55"></span><span midi="57"></span><span midi="59"></span><span midi="60"></span><span midi="62"></span><span midi="64"></span><span midi="65"></span><span midi="67"></span><span midi="69"></span><span midi="71"></span><span midi="72"></span><span midi="74"></span><span midi="76"></span><span midi="77"></span><span midi="79"></span><span midi="81"></span><span midi="83"></span><span midi="84"></span><span midi="86"></span><span midi="88"></span><span midi="89"></span><span midi="91"></span><span midi="93"></span><span midi="95"></span><span midi="96"></span><span midi="98"></span><span midi="100"></span><span midi="101"></span><span midi="103"></span><span midi="105"></span><span midi="107"></span><span midi="108"></span>
+</div>
+</div>
+
+<div class="tab">
+<span class="col">
+<div class="block" midi="24"><span>24</span> </div>
+<div class="block" midi="25"><span class="black">25</span> </div>
+<div class="block" midi="26"><span>26</span> </div>
+<div class="block" midi="27"><span class="black">27</span> <em>(High-Q)</em></div>
+<div class="block" midi="28"><span>28</span> <em>(Slap)</em></div>
+<div class="block" midi="29"><span>29</span> <em>(Scratch Push)</em></div>
+<div class="block" midi="30"><span class="black">30</span> <em>(Scratch Pull)</em></div>
+<div class="block" midi="31"><span>31</span> <em>(Sticks)</em></div>
+<div class="block" midi="32"><span class="black">32</span> <em>(Square Click)</em></div>
+<div class="block" midi="33"><span>33</span> <em>(Metronome Click)</em></div>
+<div class="block" midi="34"><span class="black">34</span> <em>(Metronome Bell)</em></div>
+<div class="block" midi="35"><span>35</span> Acoustic Bass Drum</div>
+<div class="block" midi="36"><span>36</span> Bass Drum 1</div>
+<div class="block" midi="37"><span class="black">37</span> Side Stick</div>
+<div class="block" midi="38"><span>38</span> Acoustic Snare</div>
+<div class="block" midi="39"><span class="black">39</span> Hand Clap</div>
+<div class="block" midi="40"><span>40</span> Electric Snare</div>
+<div class="block" midi="41"><span>41</span> Low Floor Tom</div>
+<div class="block" midi="42"><span class="black">42</span> Closed Hi Hat</div>
+<div class="block" midi="43"><span>43</span> High Floor Tom</div>
+<div class="block" midi="44"><span class="black">44</span> Pedal Hi-Hat</div>
+<div class="block" midi="45"><span>45</span> Low Tom</div>
+<div class="block" midi="46"><span class="black">46</span> Open Hi-Hat</div>
+<div class="block" midi="47"><span>47</span> Low-Mid Tom</div>
+</span><span class="col">
+<div class="" midi="48"><span>48</span> Hi-Mid Tom</div>
+<div class="block" midi="49"><span class="black">49</span> Crash Cymbal 1</div>
+<div class="block" midi="50"><span>50</span> High Tom</div>
+<div class="block" midi="51"><span class="black">51</span> Ride Cymbal 1</div>
+<div class="block" midi="52"><span>52</span> Chinese Cymbal</div>
+<div class="block" midi="53"><span>53</span> Ride Bell</div>
+<div class="block" midi="54"><span class="black">54</span> Tambourine</div>
+<div class="block" midi="55"><span>55</span> Splash Cymbal</div>
+<div class="block" midi="56"><span class="black">56</span> Cowbell</div>
+<div class="block" midi="57"><span>57</span> Crash Cymbal 2</div>
+<div class="block" midi="58"><span class="black">58</span> Vibraslap </div>
+<div class="block" midi="59"><span>59</span> Ride Cymbal 2</div>
+<div class="block" midi="60"><span>60</span> Hi Bongo</div>
+<div class="block" midi="61"><span class="black">61</span> Low Bongo</div>
+<div class="block" midi="62"><span>62</span> Mute Hi Conga</div>
+<div class="block" midi="63"><span class="black">63</span> Open Hi Conga</div>
+<div class="block" midi="64"><span>64</span> Low Conga</div>
+<div class="block" midi="65"><span>65</span> High Timbale</div>
+<div class="block" midi="66"><span class="black">66</span> Low Timbale</div>
+<div class="block" midi="67"><span>67</span> High Agogo</div>
+<div class="block" midi="68"><span class="black">68</span> Low Agogo</div>
+<div class="block" midi="69"><span>69</span> Cabasa</div>
+<div class="block" midi="70"><span class="black">70</span> Maracas</div>
+<div class="block" midi="71"><span>71</span> Short Whistle</div>
+</span><span class="col">
+<div class="block" midi="72"><span>72</span> Long Whistle</div>
+<div class="block" midi="73"><span class="black">73</span> Short Guiro</div>
+<div class="block" midi="74"><span>74</span> Long Guiro</div>
+<div class="block" midi="75"><span class="black">75</span> Claves</div>
+<div class="block" midi="76"><span>76</span> Hi Wood Block</div>
+<div class="block" midi="77"><span>77</span> Low Wood Block</div>
+<div class="block" midi="78"><span class="black">78</span> Mute Cuica</div>
+<div class="block" midi="79"><span>79</span> Open Cuica</div>
+<div class="block" midi="80"><span class="black">80</span> Mute Triangle</div>
+<div class="block" midi="81"><span>81</span> Open Triangle</div>
+<div class="block" midi="82"><span class="black">82</span> <em>(Shaker)</em></div>
+<div class="block" midi="83"><span>83</span> <em>(Jingle Bell)</em></div>
+<div class="block" midi="84"><span>84</span> <em>(Bell Tree)</em></div>
+<div class="block" midi="85"><span class="black">85</span> <em>(Castanets)</em></div>
+<div class="block" midi="86"><span>86</span> <em>(Mute Surdo)</em></div>
+<div class="block" midi="87"><span class="black">87</span> <em>(Open Surdo)</em></div>
+<div class="block" midi="88"><span>88</span> </div>
+<div class="block" midi="89"><span>89</span> </div>
+<div class="block" midi="90"><span class="black">90</span> </div>
+<div class="block" midi="91"><span>91</span> </div>
+<div class="block" midi="92"><span class="black">92</span> </div>
+<div class="block" midi="93"><span>93</span> </div>
+<div class="block" midi="94"><span class="black">94</span> </div>
+<div class="block" midi="95"><span>95</span> </div>
+</span>
+</div>
+
+<h2>See also</h2>
+<ul>
+<li><a href="http://jazz-soft.github.io/modules/midijs/">Acoustic Grand Piano</a></li>
+</ul>
+
+<div class="footer">
+(C) 2011-15 Jazz-Soft
+</div>
+
+</body>
+</html>
